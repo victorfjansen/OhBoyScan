@@ -1,0 +1,94 @@
+import { Menus } from "../globals.slint";
+import { ScrollView } from "../material-1.0/material.slint";
+import { HorizontalBox } from "std-widgets.slint";
+
+export struct CardMenu { title: string, label: string, menu: Menus }
+
+export component OhCardMenu {
+
+    in property <[CardMenu]> menus;
+
+    property <length> cardSpacing: 10px;
+
+    property <length> cardWidth: 180px;
+    property <length> cardHeight: 75px;
+
+     HorizontalBox {
+        height: 210px;
+
+        padding-top: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+
+        ScrollView {
+            viewport_width: 6 * root.cardWidth;
+            
+            FlexboxLayout {
+                spacing: root.cardSpacing;
+                flex-direction: row;
+                spacing-horizontal: 20px;
+                
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+
+                Rectangle {
+                    width: root.cardWidth;
+                    height: root.cardHeight;
+                    background: blue;
+                }
+            }
+        }
+    }
+}

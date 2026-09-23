@@ -1,0 +1,173 @@
+// Copyright © SixtyFPS GmbH <info@slint.dev>
+// SPDX-License-Identifier: MIT
+
+import { Palette } from "std-widgets.slint";
+import { MaterialSchemes, MaterialScheme } from "material_schemes.slint";
+
+export global MaterialPalette {
+    out property <color> primary: root.scheme.primary;
+    out property <color> surface_tint: root.scheme.surfaceTint;
+    out property <color> on_primary: root.scheme.onPrimary;
+    out property <color> primary_container: root.scheme.primaryContainer;
+    out property <color> on_primary_container: root.scheme.onPrimaryContainer;
+    out property <color> secondary: root.scheme.secondary;
+    out property <color> on_secondary: root.scheme.onSecondary;
+    out property <color> secondary_container: root.scheme.secondaryContainer;
+    out property <color> on_secondary_container: root.scheme.onSecondaryContainer;
+    out property <color> tertiary: root.scheme.tertiary;
+    out property <color> on_tertiary: root.scheme.onTertiary;
+    out property <color> tertiary_container: root.scheme.tertiaryContainer;
+    out property <color> on_tertiary_container: root.scheme.onTertiaryContainer;
+    out property <color> error: root.scheme.error;
+    out property <color> on_error: root.scheme.onError;
+    out property <color> error_container: root.scheme.errorContainer;
+    out property <color> on_error_container: root.scheme.onErrorContainer;
+    out property <color> background: root.scheme.background;
+    out property <color> on_background: root.scheme.onBackground;
+    out property <color> surface: root.scheme.surface;
+    out property <color> on_surface: root.scheme.onSurface;
+    out property <color> surface_variant: root.scheme.surfaceVariant;
+    out property <color> on_surface_variant: root.scheme.onSurfaceVariant;
+    out property <color> outline: root.scheme.outline;
+    out property <color> outline_variant: root.scheme.outlineVariant;
+    out property <color> shadow: root.scheme.shadow;
+    out property <color> scrim: root.scheme.scrim;
+    out property <color> inverse_surface: root.scheme.inverseSurface;
+    out property <color> inverse_on_surface: root.scheme.inverseOnSurface;
+    out property <color> inverse_primary: root.scheme.inversePrimary;
+    out property <color> primary_fixed: root.scheme.primaryFixed;
+    out property <color> on_primary_fixed: root.scheme.onPrimaryFixed;
+    out property <color> primary_fixed_dim: root.scheme.primaryFixedDim;
+    out property <color> on_primary_fixed_variant: root.scheme.onPrimaryFixedVariant;
+    out property <color> secondary_fixed: root.scheme.secondaryFixed;
+    out property <color> on_secondary_fixed: root.scheme.onSecondaryFixed;
+    out property <color> secondary_fixed_dim: root.scheme.secondaryFixedDim;
+    out property <color> on_secondary_fixed_variant: root.scheme.onSecondaryFixedVariant;
+    out property <color> tertiary_fixed: root.scheme.tertiaryFixed;
+    out property <color> on_tertiary_fixed: root.scheme.onTertiaryFixed;
+    out property <color> tertiary_fixed_dim: root.scheme.tertiaryFixedDim;
+    out property <color> on_tertiary_fixed_variant: root.scheme.onTertiaryFixedVariant;
+    out property <color> surface_dim: root.scheme.surfaceDim;
+    out property <color> surface_bright: root.scheme.surfaceBright;
+    out property <color> surface_container_lowest: root.scheme.surfaceContainerLowest;
+    out property <color> surface_container_low: root.scheme.surfaceContainerLow;
+    out property <color> surface_container: root.scheme.surfaceContainer;
+    out property <color> surface_container_high: root.scheme.surfaceContainerHigh;
+    out property <color> surface_container_highest: root.scheme.surfaceContainerHighest;
+    out property <color> shadow_15: #000000.with_alpha(15%);
+    out property <color> shadow_30: #000000.with_alpha(30%);
+    out property <float> state_layer_opacity_hover: 8%;
+    out property <float> state_layer_opacity_focus: 10%;
+    out property <float> state_layer_opacity_press: 10%;
+    out property <float> state_layer_opacity_disabled: 12%;
+    out property <float> state_layer_opacity_drag: 16%;
+    out property <float> disable_opacity: 38%;
+    out property <color> background_modal: #000000.with_alpha(50%);
+
+    in property <MaterialSchemes> schemes: {
+        light: {
+            primary: rgb(40, 106, 68),
+            surfaceTint: rgb(40, 106, 68),
+            onPrimary: rgb(255, 255, 255),
+            primaryContainer: rgb(173, 242, 192),
+            onPrimaryContainer: rgb(0, 33, 16),
+            secondary: rgb(78, 99, 87),
+            onSecondary: rgb(255, 255, 255),
+            secondaryContainer: rgb(209, 232, 217),
+            onSecondaryContainer: rgb(11, 31, 22),
+            tertiary: rgb(61, 102, 102),
+            onTertiary: rgb(255, 255, 255),
+            tertiaryContainer: rgb(193, 235, 234),
+            onTertiaryContainer: rgb(0, 32, 33),
+            error: rgb(186, 26, 26),
+            onError: rgb(255, 255, 255),
+            errorContainer: rgb(255, 218, 214),
+            onErrorContainer: rgb(65, 0, 2),
+            background: rgb(246, 251, 246),
+            onBackground: rgb(24, 29, 26),
+            surface: rgb(246, 251, 246),
+            onSurface: rgb(24, 29, 26),
+            surfaceVariant: rgb(220, 229, 221),
+            onSurfaceVariant: rgb(65, 73, 67),
+            outline: rgb(113, 121, 115),
+            outlineVariant: rgb(192, 201, 193),
+            shadow: rgb(0, 0, 0),
+            scrim: rgb(0, 0, 0),
+            inverseSurface: rgb(45, 50, 47),
+            inverseOnSurface: rgb(238, 242, 238),
+            inversePrimary: rgb(146, 214, 166),
+            primaryFixed: rgb(173, 242, 192),
+            onPrimaryFixed: rgb(0, 33, 16),
+            primaryFixedDim: rgb(146, 214, 166),
+            onPrimaryFixedVariant: rgb(13, 82, 47),
+            secondaryFixed: rgb(209, 232, 217),
+            onSecondaryFixed: rgb(11, 31, 22),
+            secondaryFixedDim: rgb(182, 204, 190),
+            onSecondaryFixedVariant: rgb(55, 75, 64),
+            tertiaryFixed: rgb(193, 235, 234),
+            onTertiaryFixed: rgb(0, 32, 33),
+            tertiaryFixedDim: rgb(165, 207, 206),
+            onTertiaryFixedVariant: rgb(35, 78, 79),
+            surfaceDim: rgb(215, 220, 215),
+            surfaceBright: rgb(246, 251, 246),
+            surfaceContainerLowest: rgb(255, 255, 255),
+            surfaceContainerLow: rgb(240, 245, 240),
+            surfaceContainer: rgb(235, 240, 235),
+            surfaceContainerHigh: rgb(229, 234, 229),
+            surfaceContainerHighest: rgb(223, 229, 224),
+        },
+        dark: {
+            primary: rgb(46, 213, 115),             // Verde vibrante (status ECDSA VALID e destaques ativos)
+            surfaceTint: rgb(46, 213, 115),
+            onPrimary: rgb(10, 38, 20),              // Texto escuro sobre botão primário
+            primaryContainer: rgb(34, 76, 52),       // Fundo do chip ECDSA VALID
+            onPrimaryContainer: rgb(205, 255, 218),  // Texto verde menta claro dentro do container
+            secondary: rgb(158, 196, 172),          // Verde sálvia médio para ícones e rótulos
+            onSecondary: rgb(18, 43, 29),
+            secondaryContainer: rgb(35, 54, 43),     // Chips secundários e botões de ação (ex: RE-SCAN)
+            onSecondaryContainer: rgb(210, 238, 221),
+            tertiary: rgb(123, 214, 170),           // Gráfico de atividade de rede e métricas
+            onTertiary: rgb(0, 56, 36),
+            tertiaryContainer: rgb(24, 53, 40),
+            onTertiaryContainer: rgb(180, 248, 215),
+            error: rgb(255, 180, 171),              // Alertas de regras adulteradas / portas suspeitas
+            onError: rgb(105, 0, 5),
+            errorContainer: rgb(147, 0, 10),
+            onErrorContainer: rgb(255, 218, 214),
+            background: rgb(15, 23, 20),            // Fundo profundo da tela
+            onBackground: rgb(228, 237, 231),       // Tipografia padrão clara
+            surface: rgb(15, 23, 20),
+            onSurface: rgb(228, 237, 231),
+            surfaceVariant: rgb(38, 52, 44),        // Fundo dos cartões e áreas elevadas
+            onSurfaceVariant: rgb(182, 197, 187),   // Rótulos secundários (ex: "TARGET IP:", "PROTOCOL:")
+            outline: rgb(55, 78, 64),               // Contorno de botões e bordas de cartões
+            outlineVariant: rgb(32, 45, 38),
+            shadow: rgb(0, 0, 0),
+            scrim: rgb(0, 0, 0),
+            inverseSurface: rgb(228, 237, 231),
+            inverseOnSurface: rgb(26, 36, 30),
+            inversePrimary: rgb(40, 106, 68),
+            primaryFixed: rgb(173, 242, 192),
+            onPrimaryFixed: rgb(0, 33, 16),
+            primaryFixedDim: rgb(146, 214, 166),
+            onPrimaryFixedVariant: rgb(13, 82, 47),
+            secondaryFixed: rgb(209, 232, 217),
+            onSecondaryFixed: rgb(11, 31, 22),
+            secondaryFixedDim: rgb(182, 204, 190),
+            onSecondaryFixedVariant: rgb(55, 75, 64),
+            tertiaryFixed: rgb(193, 235, 234),
+            onTertiaryFixed: rgb(0, 32, 33),
+            tertiaryFixedDim: rgb(165, 207, 206),
+            onTertiaryFixedVariant: rgb(35, 78, 79),
+            surfaceDim: rgb(12, 18, 15),            // Nível mais escuro (barra de navegação inferior)
+            surfaceBright: rgb(40, 56, 47),
+            surfaceContainerLowest: rgb(9, 15, 13),
+            surfaceContainerLow: rgb(18, 28, 24),
+            surfaceContainer: rgb(22, 33, 28),      // Cartões de informações principais
+            surfaceContainerHigh: rgb(28, 42, 35),
+            surfaceContainerHighest: rgb(34, 50, 42),
+        },
+    };
+
+    property <MaterialScheme> scheme: Palette.color_scheme == ColorScheme.dark ? root.schemes.dark : root.schemes.light;
+}

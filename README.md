@@ -1,0 +1,87 @@
+# Slint C++ Template
+
+A template for a C++ application that's using [Slint](https://slint.dev) for the user interface and CMake for the build system.
+
+## About
+
+This template helps you get started developing a C++ application with Slint as toolkit
+for the user interface. It demonstrates the integration between the `.slint` UI markup and
+C++ code, how to trigger react to callbacks, get and set properties and use basic widgets.
+
+## Prerequisites
+
+In order to use this template and build a C++ application, you need to install a few tools:
+
+  * **[cmake](https://cmake.org/download/)** (3.21 or newer)
+  * A C++ compiler that supports C++ 20 
+
+If your target environment is Linux or Windows on an x86-64 architecture, then you may also opt into downloading one of our binary Slint packages. These are pre-compiled and require no further tools. You can find setup instructions and download links at
+
+<https://slint.dev/docs/cpp/cmake.html#install-binary-packages>
+
+Alternatively, this template will automatically download the Slint sources and compile them. This option requires you to install Rust by following the [Rust Getting Started Guide](https://www.rust-lang.org/learn/get-started). Once this is done, you should have the ```rustc``` compiler and the ```cargo``` build system installed in your path.
+
+## Usage
+
+1. Download and extract the [ZIP archive of this repository](https://github.com/slint-ui/slint-cpp-template/archive/refs/heads/main.zip).
+2. Rename the extracted directory and change into it:
+    ```
+    mv slint-cpp-template-main my-project
+    cd my-project
+    ```
+3. Configure with CMake
+   ```
+   mkdir build
+   cmake -B build
+   ```
+4. Build with CMake
+   ```
+   cmake --build build
+   ```
+5. Run the application binary
+    * Linux/macOS:
+        ```
+        ./build/my_application
+        ```
+    * Windows:
+        ```
+        build\my_application.exe
+        ```
+
+We recommend using an IDE for development, along with our [LSP-based IDE integration for `.slint` files](https://github.com/slint-ui/slint/blob/master/tools/lsp/README.md). You can also load this project directly in [Visual Studio Code](https://code.visualstudio.com) and install our [Slint extension](https://marketplace.visualstudio.com/items?itemName=Slint.slint).
+
+## Building for Android
+
+The `android/` directory contains a Gradle wrapper around this CMake project that produces an Android APK.
+
+Prerequisites:
+  * [Android Studio](https://developer.android.com/studio) with the Android SDK, NDK, and CMake (in *SDK Tools*).
+  * `ANDROID_HOME` and `ANDROID_NDK_ROOT` set in your environment.
+  * Rust (see above) plus the Android target:
+    ```
+    rustup target add aarch64-linux-android
+    ```
+
+To build and install on a connected device or running emulator:
+
+```
+cd android
+./gradlew installDebug
+```
+
+The first build is slow because Slint and the Skia renderer are compiled from source. View application logs with:
+
+```
+adb logcat -s slint
+```
+
+To target additional ABIs, add them to `abiFilters` in `android/build.gradle.kts` and install the matching Rust targets (`armv7-linux-androideabi`, `x86_64-linux-android`, `i686-linux-android`).
+
+See the [Slint Android guide](https://slint.dev/docs/cpp/platforms/mobile/android) for more details.
+
+## Next Steps
+
+We hope that this template helps you get started and you enjoy exploring making user interfaces with Slint. To learn more
+about the Slint APIs and the `.slint` markup language check out our [online documentation](https://slint.dev/docs/cpp/).
+
+Don't forget to edit this README to replace it by yours

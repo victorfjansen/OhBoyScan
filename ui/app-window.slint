@@ -1,0 +1,37 @@
+import { NavigationBar } from "@material";
+import { OhAppBar } from "components/oh-appbar.slint";
+import {
+    MaterialPalette,
+} from "material-1.0/ui/styling/material_palette.slint";
+import { ElevatedCard } from "material-1.0/ui/components/card.slint";
+import { FilledCard, OutlinedCard } from "material-1.0/material.slint";
+import { OhCardMenu } from "components/oh-card-menu.slint";
+
+
+export component OBMainScreen inherits Window {
+    width: 420px;
+    height: 320px;
+    background: MaterialPalette.background;
+
+    property <length> appbarHeight: 10px;
+    in-out property <int> name;
+
+    VerticalLayout {
+        alignment: space-between;
+        OhAppBar { }
+
+        OhCardMenu { }
+
+        NavigationBar {
+            width: parent.width;
+            height: 80px;
+
+            items: [
+                { icon: @image-url("../icons/dashboard.svg"), text: "DASH" },
+                { icon: @image-url("../icons/devices.svg"), text: "DEVICES" },
+                { icon: @image-url("../icons/reports.svg"), text: "REPORTS" },
+                { icon: @image-url("../icons/settings.svg"), text: "SETTINGS" }
+            ];
+        }
+    }
+}

@@ -1,0 +1,35 @@
+import { HorizontalBox, VerticalBox } from "std-widgets.slint";
+import { MaterialText } from "@material";
+import {
+    MaterialPalette,
+} from "../material-1.0/ui/styling/material_palette.slint";
+import {
+    MaterialTypography,
+} from "../material-1.0/ui/styling/material_typography.slint";
+
+export component OhAppBar {
+
+    property <length> appbarHeight: 30px;
+
+    Rectangle {
+        width: parent.width;
+        min-height: root.appbarHeight;
+        background: MaterialPalette.surface_variant;
+        border-width: 1px;
+
+        HorizontalBox {
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-top: 5px;
+            alignment: space-between;
+
+            MaterialText {
+                text: "ETH0: 192.168.88.100 (PoE ACTIVE)";
+                horizontal-alignment: start;
+                vertical-alignment: center;
+                height: 100%;
+                font-size: MaterialTypography.body_small.font-size;
+            }
+        }
+    }
+}
