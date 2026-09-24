@@ -1,35 +1,19 @@
 cmake_minimum_required(VERSION 3.21)
 project(my_application LANGUAGES CXX)
 
-find_package(Slint QUIET)
-if (NOT Slint_FOUND)
-  message("Slint could not be located in the CMake module search path. Downloading it from Git and building it locally")
-  include(FetchContent)
-  FetchContent_Declare(
-    Slint
-    GIT_REPOSITORY https://github.com/slint-ui/slint.git
-    # `release/1` will auto-upgrade to the latest Slint >= 1.0.0 and < 2.0.0
-    # `release/1.0` will auto-upgrade to the latest Slint >= 1.0.0 and < 1.1.0
-    GIT_TAG release/1
-    SOURCE_SUBDIR api/cpp
-  )
-  FetchContent_MakeAvailable(Slint)
-endif (NOT Slint_FOUND)
+# O Slint exige o padrão C++20 para compilar os bindings corretamente
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if(ANDROID)
-    add_library(my_application SHARED src/main.cpp)
-else()
-    add_executable(my_application src/main.cpp)
-endif()
+# Força o CMake a usar o pacote Slint injetado pelo sysroot do Yocto. 
+# Se não encontrar, ele aborta o build na hora, evitando falsos positivos.
+find_package(Slint REQUIRED)
+
+add_executable(my_application src/main.cpp)
 target_link_libraries(my_application PRIVATE Slint::Slint)
 
+# Transpila a interface utilizando o slint-compiler-native isolado
 slint_target_sources(my_application ui/app-window.slint LIBRARY_PATHS material=${CMAKE_CURRENT_SOURCE_DIR}/ui/material-1.0/material.slint)
 
-# On Windows, copy the Slint DLL next to the application binary so that it's found.
-if (WIN32)
-    add_custom_command(TARGET my_application POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:my_application> $<TARGET_FILE_DIR:my_application> COMMAND_EXPAND_LISTS)
-endif()
-
-if(YOCTO_BUILD)
-  install(TARGETS my_application DESTINATION bin)
-endif()
+# Instala automaticamente no rootfs sem a necessidade de condicionais (IF)
+install(TARGETS my_application DESTINATION bin)
