@@ -1,3 +1,10 @@
+#include <iostream>
+#include <memory>
+#include <unistd.h>
+#include <vector>
+
+#include "network.h"
+
 #include "app-window.h"
 
 #ifdef __ANDROID__
@@ -9,4 +16,6 @@ int main(int argc, char **argv)
 {
     auto ui = OBMainScreen::create();
     ui->run();
+
+    return 0;
 }
