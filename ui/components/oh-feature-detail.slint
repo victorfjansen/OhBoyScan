@@ -1,0 +1,75 @@
+import { IconButton } from "../material-1.0/material.slint";
+import { MaterialText } from "@material";
+import {
+    MaterialPalette,
+} from "../material-1.0/ui/styling/material_palette.slint";
+import {
+    MaterialTypography,
+} from "../material-1.0/ui/styling/material_typography.slint";
+import { FeatureCard } from "oh-feature-card.slint";
+
+export component OhFeatureDetail {
+    in property <FeatureCard> feature;
+    callback back-requested();
+
+    VerticalLayout {
+        Rectangle {
+            height: 48px;
+            background: MaterialPalette.surface_variant;
+
+            HorizontalLayout {
+                padding-left: 8px;
+                padding-right: 12px;
+                alignment: start;
+                cross-axis-alignment: center;
+                spacing: 4px;
+
+                IconButton {
+                    icon: @image-url("../../icons/arrow-left.svg");
+                    tooltip: "Back to main";
+                    clicked => { root.back-requested(); }
+                }
+
+                MaterialText {
+                    text: root.feature.title;
+                    style: MaterialTypography.title_medium;
+                    vertical-alignment: center;
+                }
+            }
+        }
+
+        VerticalLayout {
+            padding: 16px;
+            spacing: 12px;
+
+            MaterialText {
+                text: root.feature.description;
+                style: MaterialTypography.body_small;
+                color: MaterialPalette.on_surface_variant;
+                wrap: word-wrap;
+            }
+
+            HorizontalLayout {
+                spacing: 8px;
+                cross-axis-alignment: center;
+
+                Rectangle {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 5px;
+                    background: MaterialPalette.primary;
+                }
+
+                MaterialText {
+                    text: "Scanning automatically…";
+                    style: MaterialTypography.body_small;
+                    vertical-alignment: center;
+                }
+            }
+
+            Rectangle {
+                vertical_stretch: 1;
+            }
+        }
+    }
+}

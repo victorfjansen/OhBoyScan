@@ -1,94 +1,111 @@
-import { Menus } from "../globals.slint";
-import { ScrollView } from "../material-1.0/material.slint";
-import { HorizontalBox } from "std-widgets.slint";
-
-export struct CardMenu { title: string, label: string, menu: Menus }
+import {
+    MaterialPalette,
+} from "../material-1.0/ui/styling/material_palette.slint";
+import { IconButton } from "../material-1.0/material.slint";
+import { OhFeatureCard, FeatureCard } from "oh-feature-card.slint";
 
 export component OhCardMenu {
+    in property <[FeatureCard]> features;
 
-    in property <[CardMenu]> menus;
+    callback feature-selected(int);
 
-    property <length> cardSpacing: 10px;
+    property <int> current_index: 0;
 
-    property <length> cardWidth: 180px;
-    property <length> cardHeight: 75px;
+    VerticalLayout {
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 32px;
 
-     HorizontalBox {
-        height: 210px;
+        swipe := SwipeGestureHandler {
+            vertical_stretch: 1;
+            width: 100%;
 
-        padding-top: 20px;
-        padding-left: 30px;
-        padding-right: 30px;
+            handle-swipe-left: root.current_index < root.features.length - 1;
+            handle-swipe-right: root.current_index > 0;
 
-
-        ScrollView {
-            viewport_width: 6 * root.cardWidth;
-            
-            FlexboxLayout {
-                spacing: root.cardSpacing;
-                flex-direction: row;
-                spacing-horizontal: 20px;
-                
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
+            swiped => {
+                if (self.current-position.x > self.pressed-position.x + self.width / 4) {
+                    root.go_prev();
+                } else if (self.current-position.x < self.pressed-position.x - self.width / 4) {
+                    root.go_next();
                 }
+            }
 
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
-                }
+            viewport := Rectangle {
+                width: 100%;
+                height: 100%;
+                clip: true;
 
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
-                }
+                track := Rectangle {
+                    property <length> page-x: -root.current_index * viewport.width;
+                    animate page-x { duration: 200ms; easing: ease-in-out; }
 
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
-                }
+                    property <length> swipe-offset: 0px;
+                    x: self.page-x + self.swipe-offset;
+                    y: 0px;
+                    width: pages.preferred-width;
+                    height: viewport.height;
 
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
-                }
+                    states [
+                        swiping when swipe.swiping : {
+                            swipe-offset: (swipe.current-position.x - swipe.pressed-position.x).clamp(-viewport.width, viewport.width);
+                            out {
+                                animate swipe-offset { duration: 200ms; easing: ease-in-out; }
+                            }
+                        }
+                    ]
 
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
-                }
-
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
-                }
-
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
-                }
-
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
-                }
-
-                Rectangle {
-                    width: root.cardWidth;
-                    height: root.cardHeight;
-                    background: blue;
+                    pages := HorizontalLayout {
+                        for feature[idx] in root.features : OhFeatureCard {
+                            width: viewport.width;
+                            height: viewport.height;
+                            title: feature.title;
+                            description: feature.description;
+                            status: feature.status;
+                            status_kind: feature.status_kind;
+                            clicked => { root.feature-selected(idx); }
+                        }
+                    }
                 }
             }
         }
+
+        HorizontalLayout {
+            height: 40px;
+            alignment: center;
+            cross-axis-alignment: center;
+            spacing: 8px;
+
+            IconButton {
+                icon: @image-url("../../icons/arrow-left.svg");
+                tooltip: "Previous feature";
+                clicked => { root.go_prev(); }
+            }
+
+            for feature[idx] in root.features : Rectangle {
+                width: idx == root.current_index ? 10px : 8px;
+                height: idx == root.current_index ? 10px : 8px;
+                border-radius: idx == root.current_index ? 5px : 4px;
+                background: idx == root.current_index ? MaterialPalette.primary : MaterialPalette.outline_variant;
+            }
+
+            IconButton {
+                icon: @image-url("../../icons/arrow-right.svg");
+                tooltip: "Next feature";
+                clicked => { root.go_next(); }
+            }
+        }
+    }
+
+    function go_to(index: int) {
+        root.current_index = min(max(index, 0), root.features.length - 1);
+    }
+
+    function go_next() {
+        root.go_to(root.current_index + 1);
+    }
+
+    function go_prev() {
+        root.go_to(root.current_index - 1);
     }
 }

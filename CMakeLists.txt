@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.21)
 project(my_application LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(Slint QUIET)
 if (NOT Slint_FOUND)
   message("Slint could not be located in the CMake module search path. Downloading it from Git and building it locally")
@@ -16,12 +19,31 @@ if (NOT Slint_FOUND)
   FetchContent_MakeAvailable(Slint)
 endif (NOT Slint_FOUND)
 
+set(APP_SOURCES
+    src/main.cpp
+    src/mikrotik_device.cpp
+    src/routeros_api_client.cpp
+    src/scan_engine.cpp
+    src/gateway_detector.cpp
+    src/exposure_checker.cpp
+    src/topology_scanner.cpp
+    src/ecdsa_validator.cpp
+    src/arp_monitor.cpp
+    src/cable_tester.cpp
+)
+
 if(ANDROID)
-    add_library(my_application SHARED src/main.cpp)
+    add_library(my_application SHARED ${APP_SOURCES})
 else()
-    add_executable(my_application src/main.cpp)
+    find_package(CURL REQUIRED)
+    find_package(OpenSSL REQUIRED)
+    add_executable(my_application ${APP_SOURCES})
 endif()
+
 target_link_libraries(my_application PRIVATE Slint::Slint)
+if(NOT ANDROID)
+    target_link_libraries(my_application PRIVATE CURL::libcurl OpenSSL::Crypto)
+endif()
 
 slint_target_sources(my_application ui/app-window.slint LIBRARY_PATHS material=${CMAKE_CURRENT_SOURCE_DIR}/ui/material-1.0/material.slint)
 
