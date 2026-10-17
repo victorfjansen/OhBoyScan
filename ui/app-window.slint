@@ -1,37 +1,135 @@
-import { NavigationBar } from "@material";
 import { OhAppBar } from "components/oh-appbar.slint";
 import {
     MaterialPalette,
 } from "material-1.0/ui/styling/material_palette.slint";
-import { ElevatedCard } from "material-1.0/ui/components/card.slint";
-import { FilledCard, OutlinedCard } from "material-1.0/material.slint";
 import { OhCardMenu } from "components/oh-card-menu.slint";
-
+import { OhFeatureDetail } from "components/oh-feature-detail.slint";
+import { OhArpView, ArpAlert } from "components/oh-arp-view.slint";
+import { OhCableView, CableResult } from "components/oh-cable-view.slint";
+import { OhEcdsaView, EcdsaCheck } from "components/oh-ecdsa-view.slint";
+import { OhExposureView, PortResult } from "components/oh-exposure-view.slint";
+import { OhTopologyView, TopologyDevice } from "components/oh-topology-view.slint";
+import { FeatureStatus, FeatureCard } from "components/oh-feature-card.slint";
 
 export component OBMainScreen inherits Window {
     width: 420px;
     height: 320px;
     background: MaterialPalette.background;
 
-    property <length> appbarHeight: 10px;
     in-out property <int> name;
+    in-out property <string> appbar-status: "Detecting interface…";
+    in-out property <bool> appbar-link-active: false;
+    property <int> current-feature: -1;
 
-    VerticalLayout {
-        alignment: space-between;
-        OhAppBar { }
+    callback feature-opened(int);
+    callback feature-closed();
 
-        OhCardMenu { }
+    in-out property <[ArpAlert]> arp-alerts;
+    in-out property <string> arp-status: "Monitoring…";
 
-        NavigationBar {
-            width: parent.width;
-            height: 80px;
+    in-out property <[CableResult]> cable-results;
+    in-out property <string> cable-status: "Testing…";
 
-            items: [
-                { icon: @image-url("../icons/dashboard.svg"), text: "DASH" },
-                { icon: @image-url("../icons/devices.svg"), text: "DEVICES" },
-                { icon: @image-url("../icons/reports.svg"), text: "REPORTS" },
-                { icon: @image-url("../icons/settings.svg"), text: "SETTINGS" }
-            ];
+    in-out property <[EcdsaCheck]> ecdsa-results;
+    in-out property <string> ecdsa-status: "Auditing…";
+
+    in-out property <[PortResult]> exposure-results;
+    in-out property <string> exposure-status: "Scanning…";
+
+    in-out property <[TopologyDevice]> topology-results;
+    in-out property <string> topology-status: "Listening…";
+
+    property <[FeatureCard]> features: [
+        { title: "ECDSA Script Audit", description: "Verify RouterOS script signatures with FIPS 186-5 ECDSA.", status: "VALID", status_kind: FeatureStatus.ok },
+        { title: "Topology Mapper", description: "Discover network neighbors via MNDP, LLDP and CDP.", status: "READY", status_kind: FeatureStatus.neutral },
+        { title: "ARP Poison Monitor", description: "Detect gateway MAC forgery on layer 2 in real time.", status: "WATCHING", status_kind: FeatureStatus.ok },
+        { title: "Cable Test (TDR)", description: "Locate breaks and shorts using the router cable-test.", status: "RUN", status_kind: FeatureStatus.warn },
+        { title: "Exposure Checker", description: "Scan admin ports and default credentials on WAN.", status: "SCAN", status_kind: FeatureStatus.error },
+    ];
+
+    if (root.current-feature == -1) : VerticalLayout {
+        OhAppBar {
+            statusText: root.appbar-status;
+            linkActive: root.appbar-link-active;
+        }
+
+        OhCardMenu {
+            vertical_stretch: 1;
+            features: root.features;
+
+            feature-selected(idx) => {
+                root.current-feature = idx;
+                root.feature-opened(idx);
+            }
+        }
+    }
+
+    if (root.current-feature == 4) : VerticalLayout {
+        OhExposureView {
+            status: root.exposure-status;
+            results: root.exposure-results;
+
+            back-requested => {
+                root.current-feature = -1;
+                root.feature-closed();
+        }
+        }
+    }
+
+    if (root.current-feature == 0) : VerticalLayout {
+        OhEcdsaView {
+            status: root.ecdsa-status;
+            results: root.ecdsa-results;
+
+            back-requested => {
+                root.current-feature = -1;
+                root.feature-closed();
+            }
+        }
+    }
+
+    if (root.current-feature == 1) : VerticalLayout {
+        OhTopologyView {
+            status: root.topology-status;
+            results: root.topology-results;
+
+            back-requested => {
+                root.current-feature = -1;
+                root.feature-closed();
+            }
+        }
+    }
+
+    if (root.current-feature == 2) : VerticalLayout {
+        OhArpView {
+            status: root.arp-status;
+            alerts: root.arp-alerts;
+
+            back-requested => {
+                root.current-feature = -1;
+                root.feature-closed();
+            }
+        }
+    }
+
+    if (root.current-feature == 3) : VerticalLayout {
+        OhCableView {
+            status: root.cable-status;
+            results: root.cable-results;
+
+            back-requested => {
+                root.current-feature = -1;
+                root.feature-closed();
+            }
+        }
+    }
+
+    if (root.current-feature >= 0 && root.current-feature != 4 && root.current-feature != 1 && root.current-feature != 0 && root.current-feature != 2 && root.current-feature != 3) : OhFeatureDetail {
+        feature: root.features[root.current-feature];
+
+        back-requested => {
+            root.current-feature = -1;
+            root.feature-closed();
         }
     }
 }

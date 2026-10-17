@@ -1,0 +1,93 @@
+import { IconButton, ScrollView } from "../material-1.0/material.slint";
+import { MaterialText } from "@material";
+import {
+    MaterialPalette,
+} from "../material-1.0/ui/styling/material_palette.slint";
+import {
+    MaterialTypography,
+} from "../material-1.0/ui/styling/material_typography.slint";
+import { FeatureStatus } from "oh-feature-card.slint";
+
+export struct ArpAlert {
+    message: string,
+    kind: FeatureStatus,
+}
+
+export component OhArpView {
+    in property <string> status;
+    in property <[ArpAlert]> alerts;
+    callback back-requested();
+
+    VerticalLayout {
+        width: 100%;
+        height: 100%;
+
+        Rectangle {
+            width: 100%;
+            height: 48px;
+            background: MaterialPalette.surface_variant;
+
+            HorizontalLayout {
+                height: 100%;
+                padding-left: 8px;
+                padding-right: 12px;
+                alignment: start;
+                cross-axis-alignment: center;
+                spacing: 4px;
+
+                IconButton {
+                    icon: @image-url("../../icons/arrow-left.svg");
+                    tooltip: "Back to main";
+                    clicked => { root.back-requested(); }
+                }
+
+                MaterialText {
+                    text: "ARP Poison Monitor";
+                    style: MaterialTypography.title_medium;
+                    vertical-alignment: center;
+                    height: 100%;
+                }
+            }
+        }
+
+        ScrollView {
+            width: 100%;
+            horizontal_scrollbar_policy: always_off;
+
+            VerticalLayout {
+                width: 100%;
+                padding: 12px;
+                padding-bottom: 32px;
+                spacing: 8px;
+
+                MaterialText {
+                    text: root.status;
+                    style: MaterialTypography.body_small;
+                    color: MaterialPalette.on_surface_variant;
+                }
+
+                for alert[idx] in root.alerts : Rectangle {
+                    width: 100%;
+                    height: 40px;
+                    background: MaterialPalette.surface_container;
+                    border-radius: 8px;
+
+                    HorizontalLayout {
+                        height: 100%;
+                        padding-left: 12px;
+                        padding-right: 12px;
+                        cross-axis-alignment: center;
+
+                        MaterialText {
+                            text: alert.message;
+                            style: MaterialTypography.label_medium;
+                            color: alert.kind == FeatureStatus.error ? MaterialPalette.error
+                                : MaterialPalette.primary;
+                            vertical-alignment: center;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

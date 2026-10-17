@@ -1,4 +1,3 @@
-import { HorizontalBox, VerticalBox } from "std-widgets.slint";
 import { MaterialText } from "@material";
 import {
     MaterialPalette,
@@ -9,26 +8,48 @@ import {
 
 export component OhAppBar {
 
-    property <length> appbarHeight: 30px;
+    property <length> appbarHeight: 36px;
+    in property <string> statusText: "ETH0: 192.168.88.100 (PoE ACTIVE)";
+    in property <bool> linkActive: true;
 
     Rectangle {
         width: parent.width;
-        min-height: root.appbarHeight;
+        height: root.appbarHeight;
         background: MaterialPalette.surface_variant;
-        border-width: 1px;
 
-        HorizontalBox {
+        HorizontalLayout {
+            height: 100%;
             padding-left: 12px;
             padding-right: 12px;
-            padding-top: 5px;
             alignment: space-between;
+            cross-axis-alignment: center;
+
+            HorizontalLayout {
+                height: 100%;
+                spacing: 6px;
+                cross-axis-alignment: center;
+
+                Rectangle {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 4px;
+                    background: root.linkActive ? MaterialPalette.primary : MaterialPalette.error;
+                }
+
+                MaterialText {
+                    text: root.statusText;
+                    font-size: MaterialTypography.body_small.font-size;
+                    vertical-alignment: center;
+                    height: 100%;
+                }
+            }
 
             MaterialText {
-                text: "ETH0: 192.168.88.100 (PoE ACTIVE)";
-                horizontal-alignment: start;
+                text: "OhBoyScan";
+                font-size: MaterialTypography.label_medium.font-size;
+                color: MaterialPalette.on_surface_variant;
                 vertical-alignment: center;
                 height: 100%;
-                font-size: MaterialTypography.body_small.font-size;
             }
         }
     }
